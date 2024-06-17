@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import * as path from 'path';
 import OpenAI from 'openai';
 
 dotenv.config();
