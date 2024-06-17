@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "3000:3000"
