@@ -7,5 +7,8 @@ services:
       - .env
     volumes:
       - ./backend:/app
+      - "/app/node_modules" # making sure not to attach to host node_modules
     ports:
       - "3000:3000"
+      - "9229:9229"
+    command: ["npm", "run", "start"]
