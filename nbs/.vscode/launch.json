@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "NestJS Docker Attach",
+            "address": "localhost",
+            "port": 9229,
+            "localRoot": "${workspaceFolder}/backend",
+            "remoteRoot": "/app",
+            "sourceMaps": true,
+            "skipFiles": [
+                "<node_internals>/**/*.js",
+                "<node_internals>/**",
+                "${workspaceFolder}/backend/node_modules/**/*.js",
+                "${workspaceFolder}/backend/node_modules/**/*.mjs",
+                "**/build/*"
+            ]
+        },
+    }
+]
+}
