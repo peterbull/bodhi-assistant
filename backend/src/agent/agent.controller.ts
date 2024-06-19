@@ -16,6 +16,11 @@ export class AgentController {
     return this.agentService.breakpoint();
   }
 
+  @Get('spots')
+  getSpots() {
+    return this.agentService.getSpots();
+  }
+
   @Post('query')
   @ApiBody({ type: CreateQueryDto })
   getChatCompletion(@Body('query') query: string) {

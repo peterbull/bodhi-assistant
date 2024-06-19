@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import OpenAI from 'openai';
+import { Spot } from 'src/common/interfaces/bodhicast-api.interface';
 
 dotenv.config();
 
@@ -18,5 +19,11 @@ export class AgentService {
       model: 'gpt-3.5-turbo-0125',
     });
     return res.choices[0];
+  }
+
+  async getSpots(): Promise<Spot[]> {
+    const res = await fetch('https://api.bodhicast.com/spots');
+    const data: Spot[] = await res.json();
+    return data;
   }
 }
