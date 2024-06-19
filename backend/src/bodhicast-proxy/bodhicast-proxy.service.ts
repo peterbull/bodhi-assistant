@@ -20,9 +20,9 @@ export class BodhicastProxyService {
     return data;
   }
 
-  async getForecastBySpot(date: string, spot: Spot) {
+  async getForecastBySpot(date: string, lat: number, lon: number) {
     const res = await fetch(
-      `${BodhicastProxyService.bodhiApiUrlBase}/forecasts/nearest/${date}/${spot.latitude}/${spot.longitude}`,
+      `${BodhicastProxyService.bodhiApiUrlBase}/forecasts/nearest/${date}/${lat}/${lon}`,
     );
     const data: Forecast[] = await res.json();
     return data;

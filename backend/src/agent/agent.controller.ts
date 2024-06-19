@@ -21,4 +21,10 @@ export class AgentController {
   getChatCompletion(@Body('query') query: string) {
     return this.agentService.chatCompletion(query);
   }
+
+  @Post('extract_spots')
+  @ApiBody({ type: CreateQueryDto })
+  extractSpot(@Body('query') query: string) {
+    return this.agentService.extractSpot(query);
+  }
 }
