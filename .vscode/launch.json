@@ -7,7 +7,7 @@
             "name": "NestJS Docker Attach",
             "address": "localhost",
             "port": 9229,
-            "localRoot": "${workspaceFolder}/backend/src",
+            "localRoot": "${workspaceFolder}/backend",
             "remoteRoot": "/app",
             "sourceMaps": true,
             "restart": true,
