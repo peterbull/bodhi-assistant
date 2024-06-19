@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv';
 import OpenAI from 'openai';
 import Instructor from '@instructor-ai/instructor';
 import { z } from 'zod';
-import { Agent } from 'http';
 
 dotenv.config();
 const TargetSpot = z.object({
