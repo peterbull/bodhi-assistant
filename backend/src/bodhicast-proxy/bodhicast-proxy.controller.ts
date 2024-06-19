@@ -9,4 +9,9 @@ export class BodhicastProxyController {
   getApiSpec() {
     return this.bodhicastProxyService.fetchBodhicastApiSpec();
   }
+
+  @Get('spots')
+  getSpots() {
+    return this.bodhicastProxyService.getSpots();
+  }
 }
