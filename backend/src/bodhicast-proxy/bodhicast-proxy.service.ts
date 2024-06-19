@@ -20,10 +20,11 @@ export class BodhicastProxyService {
     return data;
   }
 
-  async getForecastBySpotCoords(date: string, spot: Spot) {
+  async getForecastBySpot(date: string, spot: Spot) {
     const res = await fetch(
       `${BodhicastProxyService.bodhiApiUrlBase}/forecasts/nearest/${date}/${spot.latitude}/${spot.longitude}`,
     );
     const data: Forecast[] = await res.json();
+    return data;
   }
 }
