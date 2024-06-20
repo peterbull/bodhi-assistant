@@ -17,7 +17,7 @@ export class BodhicastProxyService {
     return data;
   }
 
-  async getForecastBySpot(date: string, lat: number, lon: number) {
+  async getForecastBySpot(date: number, lat: number, lon: number) {
     const res = await fetch(
       `${BODHICAST_API_URL_BASE}/forecasts/nearest/${date}/${lat}/${lon}`,
     );

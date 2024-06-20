@@ -9,7 +9,7 @@ class SpotDto {
     description: 'The date of the forecast as `YYYYMMDD`',
     default: getCurrentDate(),
   })
-  date: string;
+  date: number;
 
   @ApiProperty({
     description: 'Latitude of the spot',
