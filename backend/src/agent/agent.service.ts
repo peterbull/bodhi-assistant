@@ -6,13 +6,18 @@ import { z } from 'zod';
 import { getCurrentDate } from 'src/utils/utils';
 import { BODHICAST_API_URL_BASE } from 'src/config';
 import { BodhicastProxyService } from 'src/bodhicast-proxy/bodhicast-proxy.service';
+import { Forecast } from 'src/common/interfaces/bodhicast-api.interface';
 
 dotenv.config();
-const TargetSpot = z.object({
+
+const TargetSpotSchema = z.object({
   date: z.number().describe('date formatted as YYYYMMDD'),
   lon: z.number(),
   lat: z.number(),
+  _meta: z.any().optional(),
 });
+
+type TargetSpot = z.infer<typeof TargetSpotSchema>;
 
 @Injectable()
 export class AgentService {
@@ -33,7 +38,7 @@ export class AgentService {
     return res.choices[0];
   }
 
-  async extractSpot(query: string) {
+  async extractSpot(query: string): Promise<TargetSpot> {
     const res = await AgentService.client.chat.completions.create({
       messages: [
         {
@@ -43,13 +48,30 @@ export class AgentService {
       ],
       model: 'gpt-3.5-turbo-0125',
       response_model: {
-        schema: TargetSpot,
+        schema: TargetSpotSchema,
         name: 'Target',
       },
     });
-    return res;
+    const parsed = await TargetSpotSchema.safeParseAsync(res);
+
+    if (!parsed.success) {
+      throw new Error('Response does not match TargetSpot schema');
+    }
+
+    return parsed.data;
   }
-  async getSpotForecast() {
-    const res = await fetch(`${BODHICAST_API_URL_BASE}`);
+  /**
+   *
+   * @param query provide some of the json from extract spot along with a request `get me the 1st street jetty forecast`
+   * @returns
+   */
+  async getSpotForecast(query: string): Promise<Forecast[]> {
+    const { date, lat, lon } = await this.extractSpot(query);
+    const forecast = await this.bodhicastProxyService.getForecastBySpot(
+      date,
+      lat,
+      lon,
+    );
+    return forecast;
   }
 }

@@ -27,4 +27,10 @@ export class AgentController {
   extractSpot(@Body('query') query: string) {
     return this.agentService.extractSpot(query);
   }
+
+  @Post('extract_and_fetch_forecast')
+  @ApiBody({ type: CreateQueryDto })
+  extractAndFetchForecast(@Body('query') query: string) {
+    return this.agentService.getSpotForecast(query);
+  }
 }
