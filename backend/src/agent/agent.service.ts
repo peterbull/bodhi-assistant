@@ -3,6 +3,9 @@ import * as dotenv from 'dotenv';
 import OpenAI from 'openai';
 import Instructor from '@instructor-ai/instructor';
 import { z } from 'zod';
+import { getCurrentDate } from 'src/utils/utils';
+import { BODHICAST_API_URL_BASE } from 'src/config';
+import { BodhicastProxyService } from 'src/bodhicast-proxy/bodhicast-proxy.service';
 
 dotenv.config();
 const TargetSpot = z.object({
@@ -15,6 +18,8 @@ const TargetSpot = z.object({
 export class AgentService {
   static openai = new OpenAI();
   static client = Instructor({ client: AgentService.openai, mode: 'TOOLS' });
+
+  constructor(private bodhicastProxyService: BodhicastProxyService) {}
 
   breakpoint() {
     return 'break';
@@ -30,7 +35,12 @@ export class AgentService {
 
   async extractSpot(query: string) {
     const res = await AgentService.client.chat.completions.create({
-      messages: [{ role: 'user', content: query }],
+      messages: [
+        {
+          role: 'user',
+          content: `Today's date is ${getCurrentDate()}, ${query}`,
+        },
+      ],
       model: 'gpt-3.5-turbo-0125',
       response_model: {
         schema: TargetSpot,
@@ -38,5 +48,8 @@ export class AgentService {
       },
     });
     return res;
+  }
+  async getSpotForecast() {
+    const res = await fetch(`${BODHICAST_API_URL_BASE}`);
   }
 }
