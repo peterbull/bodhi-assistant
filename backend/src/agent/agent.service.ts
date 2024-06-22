@@ -7,7 +7,7 @@ import { getCurrentDate } from 'src/utils/utils';
 import { BodhicastProxyService } from 'src/bodhicast-proxy/bodhicast-proxy.service';
 import { Forecast } from 'src/common/interfaces/bodhicast-api.interface';
 import weaviate, { vectorizer, WeaviateClient } from 'weaviate-client';
-vectorizer.text2VecTransformers;
+
 dotenv.config();
 
 const TargetSpotSchema = z.object({
