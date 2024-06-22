@@ -33,4 +33,9 @@ export class AgentController {
   extractAndFetchForecast(@Body('query') query: string) {
     return this.agentService.getSpotForecast(query);
   }
+
+  @Get('connect_to_weaviate')
+  connectToWeaviate() {
+    return this.agentService.connectToWeaviate();
+  }
 }

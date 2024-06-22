@@ -4,10 +4,10 @@ import OpenAI from 'openai';
 import Instructor from '@instructor-ai/instructor';
 import { z } from 'zod';
 import { getCurrentDate } from 'src/utils/utils';
-import { BODHICAST_API_URL_BASE } from 'src/config';
 import { BodhicastProxyService } from 'src/bodhicast-proxy/bodhicast-proxy.service';
 import { Forecast } from 'src/common/interfaces/bodhicast-api.interface';
-
+import weaviate, { vectorizer, WeaviateClient } from 'weaviate-client';
+vectorizer.text2VecTransformers;
 dotenv.config();
 
 const TargetSpotSchema = z.object({
@@ -74,9 +74,9 @@ export class AgentService {
   }
 
   /**
-   *
-   * @param query provide some of the json from extract spot along with a request `get me the 1st street jetty forecast`
-   * @returns
+   * Retrieves the spot forecast based on the provided query.
+   * @param query - The query string used to extract spot information.
+   * @returns A promise that resolves to an array of Forecast objects.
    */
   async getSpotForecast(query: string): Promise<Forecast[]> {
     const { date, lat, lon } = await this.extractSpot(query);
@@ -86,5 +86,12 @@ export class AgentService {
       lon,
     );
     return forecast;
+  }
+
+  async connectToWeaviate(): Promise<WeaviateClient> {
+    const weaviateClient = await weaviate.connectToWeaviateCloud(
+      'http://weaviate:8080',
+    );
+    return weaviateClient;
   }
 }
