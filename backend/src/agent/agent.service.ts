@@ -30,6 +30,12 @@ export class AgentService {
     return 'break';
   }
 
+  /**
+   * Performs a chat completion using OpenAI's GPT-3.5 Turbo model.
+   *
+   * @param query - The user's query to be used for chat completion.
+   * @returns A Promise that resolves to the completion response from OpenAI.
+   */
   async chatCompletion(query: string) {
     const res = await AgentService.openai.chat.completions.create({
       messages: [{ role: 'user', content: query }],
@@ -38,6 +44,12 @@ export class AgentService {
     return res.choices[0];
   }
 
+  /**
+   * Extracts a target spot by sending a chat completion request to the AgentService client.
+   * @param query - The query string to be included in the chat message.
+   * @returns A Promise that resolves to the extracted TargetSpot.
+   * @throws An error if the response does not match the TargetSpot schema.
+   */
   async extractSpot(query: string): Promise<TargetSpot> {
     const res = await AgentService.client.chat.completions.create({
       messages: [
@@ -60,6 +72,7 @@ export class AgentService {
 
     return parsed.data;
   }
+
   /**
    *
    * @param query provide some of the json from extract spot along with a request `get me the 1st street jetty forecast`
