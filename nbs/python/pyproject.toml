@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "bodhi-assistant"
+version = "0.1.0"
+description = ""
+authors = ["LAPTOP-VCGCOL4V <petercbull@gmail.com>"]
+readme = ""
+
+[tool.poetry.dependencies]
+python = "^3.10"
+langgraph = "^0.1.1"
+ipykernel = "^6.29.4"
+ipywidgets = "^8.1.3"
+requests = "^2.32.3"
+claudette = "^0.0.4"
+toolslm = "^0.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
