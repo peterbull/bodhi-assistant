@@ -1,27 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { BodhicastProxyService } from './bodhicast-proxy.service';
-import { Spot } from 'src/common/interfaces/bodhicast-api.interface';
-import { ApiProperty, ApiBody } from '@nestjs/swagger';
-import { getCurrentDate } from 'src/utils/utils';
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { BodhicastProxyService } from "./bodhicast-proxy.service";
+import { Spot } from "src/common/interfaces/bodhicast-api.interface";
+import { getCurrentDate } from "src/utils/utils";
+import { ApiBody, ApiProperty } from "@nestjs/swagger";
+import { CreateQueryDto, SpotDto } from "src/common/dto/bodhicast-api.dto";
 
-class SpotDto {
-  @ApiProperty({
-    description: 'The date of the forecast as `YYYYMMDD`',
-    default: getCurrentDate(),
-  })
-  date: number;
-
-  @ApiProperty({
-    description: 'Latitude of the spot',
-    default: 36.83036135089083,
-  })
-  latitude: number;
-
-  @ApiProperty({ description: 'Longitude of the spot', default: -75.96648 })
-  longitude: number;
-}
-
-@Controller('bodhicast-proxy')
+@Controller("bodhicast-proxy")
 export class BodhicastProxyController {
   constructor(private readonly bodhicastProxyService: BodhicastProxyService) {}
 
@@ -30,12 +14,12 @@ export class BodhicastProxyController {
     return this.bodhicastProxyService.fetchBodhicastApiSpec();
   }
 
-  @Get('spots')
+  @Get("spots")
   getSpots() {
     return this.bodhicastProxyService.getSpots();
   }
 
-  @Post('forecast_by_spot')
+  @Post("forecast_by_spot")
   @ApiBody({ type: SpotDto })
   getForecastBySpot(@Body() spot: SpotDto) {
     return this.bodhicastProxyService.getForecastBySpot(
@@ -43,5 +27,11 @@ export class BodhicastProxyController {
       spot.latitude,
       spot.longitude,
     );
+  }
+
+  @Post("search_spots")
+  @ApiBody({ type: CreateQueryDto })
+  searchSpots(@Body("query") query: string) {
+    return this.bodhicastProxyService.searchSpots(query);
   }
 }

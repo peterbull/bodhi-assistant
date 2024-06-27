@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import fetch from 'node-fetch';
-import { Spot, Forecast } from 'src/common/interfaces/bodhicast-api.interface';
-import { BODHICAST_API_URL_BASE } from 'src/config';
+import { Injectable } from "@nestjs/common";
+import fetch from "node-fetch";
+import { Forecast, Spot } from "src/common/interfaces/bodhicast-api.interface";
+import { BODHICAST_API_URL_BASE } from "src/config";
 
 @Injectable()
 export class BodhicastProxyService {
@@ -23,5 +23,14 @@ export class BodhicastProxyService {
     );
     const data: Forecast[] = await res.json();
     return data;
+  }
+
+  async searchSpots(query: string): Promise<Spot[]> {
+    const spots = await this.getSpots();
+    const filteredSpots = spots.filter((spot: Spot) =>
+      spot.spot_name.toLowerCase().includes(query) ||
+      spot.street_address.toLowerCase().includes(query)
+    );
+    return filteredSpots;
   }
 }

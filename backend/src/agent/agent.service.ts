@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { getCurrentDate } from 'src/utils/utils';
 import { BodhicastProxyService } from 'src/bodhicast-proxy/bodhicast-proxy.service';
 import { Forecast } from 'src/common/interfaces/bodhicast-api.interface';
-import weaviate, { vectorizer, WeaviateClient } from 'weaviate-client';
+// import weaviate, { vectorizer, WeaviateClient } from 'weaviate-client';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ const TargetSpotSchema = z.object({
 });
 
 type TargetSpot = z.infer<typeof TargetSpotSchema>;
+
 
 @Injectable()
 export class AgentService {
@@ -43,7 +44,7 @@ export class AgentService {
     });
     return res.choices[0];
   }
-
+  
   /**
    * Extracts a target spot by sending a chat completion request to the AgentService client.
    * @param query - The query string to be included in the chat message.
@@ -88,10 +89,11 @@ export class AgentService {
     return forecast;
   }
 
-  async connectToWeaviate(): Promise<WeaviateClient> {
-    const weaviateClient = await weaviate.connectToWeaviateCloud(
-      'http://weaviate:8080',
-    );
-    return weaviateClient;
-  }
+
+  // async connectToWeaviate(): Promise<WeaviateClient> {
+  //   const weaviateClient = await weaviate.connectToWeaviateCloud(
+  //     'http://weaviate:8080',
+  //   );
+  //   return weaviateClient;
+  // }
 }
