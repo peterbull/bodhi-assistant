@@ -1,6 +1,14 @@
 {
-    "deno.enable": true,
+    "deno.enable": false,
+    // "deno.enable": true,
     "deno.enablePaths": [
         "./nbs/"
-    ]
+    ],
+    "deno.lint": false,
+    // This is necessary due to a conflict with vscode
+    // alternatively, could uninstall the deno extension, but
+    // it's nice to have for notebooks
+    "[typescript]": {
+        "editor.defaultFormatter": "denoland.vscode-deno"
+    },
 }
